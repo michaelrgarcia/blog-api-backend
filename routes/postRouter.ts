@@ -1,6 +1,6 @@
 import passport from "../auth/passportConfig.js";
 
-import { NextFunction, Request, Response, Router } from "express";
+import { Router } from "express";
 
 import {
   createPost,
