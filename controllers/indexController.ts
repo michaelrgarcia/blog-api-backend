@@ -56,6 +56,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const token = jwt.sign({ username }, String(process.env.JWT_SECRET));
 
     res.status(200).json({ message: "Authentication successful", token });
+
+    // ON FRONTEND: store the token in localStorage
   } catch (err: any) {
     console.error(err);
 
