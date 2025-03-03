@@ -22,7 +22,7 @@ export const jwtStrategy = new JwtStrategy(
     const prisma = new PrismaClient();
 
     try {
-      const user = await prisma.user.findUniqueOrThrow({
+      const user = await prisma.user.findUnique({
         where: {
           username: payload.username,
         },
