@@ -57,8 +57,6 @@ export async function getUnpublishedPosts(
   next: NextFunction
 ) {
   try {
-    // ADD JWT AUTH + role check (?) !!!!
-
     const prisma = new PrismaClient();
 
     const posts = await prisma.post.findMany({
@@ -82,8 +80,6 @@ export async function createPost(
   next: NextFunction
 ) {
   try {
-    // ADD JWT AUTH + role check (?) !!!!
-
     const { authorId, title, content } = req.body;
 
     const prisma = new PrismaClient();
@@ -110,8 +106,6 @@ export async function editPost(
   next: NextFunction
 ) {
   try {
-    // ADD JWT AUTH + role check (?) !!!!
-
     const { postId, title, content } = req.body;
 
     const prisma = new PrismaClient();
@@ -140,8 +134,6 @@ export async function deletePost(
   next: NextFunction
 ) {
   try {
-    // ADD JWT AUTH + role check (?) !!!!
-
     const { postId } = req.params;
 
     const prisma = new PrismaClient();
