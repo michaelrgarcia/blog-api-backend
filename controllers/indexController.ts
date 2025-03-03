@@ -1,8 +1,9 @@
+import jwt from "jsonwebtoken";
+
 import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { compare, hash } from "bcrypt";
 import { config } from "dotenv";
-import jwt from "jsonwebtoken";
 
 import { authError } from "../errors/authError.js";
 
