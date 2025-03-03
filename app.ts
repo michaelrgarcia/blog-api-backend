@@ -15,7 +15,11 @@ app.use("/posts", postRouter);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
 
-  res.status(500).json({ message: "Internal Server Error" });
+  if (err.name === "AuthError") {
+    res.status(401).json({ message: err.message });
+  } else {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 app.all("*", (req: Request, res: Response) => {
