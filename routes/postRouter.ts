@@ -14,6 +14,6 @@ postRouter.get("/unpublished", getUnpublishedPosts);
 
 postRouter.post("/create", createPost);
 postRouter.put("/edit", editPost);
-postRouter.delete("/delete", deletePost);
+postRouter.delete("/delete/:postId", deletePost);
 
 export default postRouter;

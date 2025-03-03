@@ -1,6 +1,33 @@
 import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
+const postsQuery = {
+  select: {
+    id: true,
+    title: true,
+    author: {
+      select: {
+        username: true,
+      },
+    },
+    content: true,
+    uploaded: true,
+    lastModified: true,
+    comments: {
+      select: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+        content: true,
+        uploaded: true,
+        lastModified: true,
+      },
+    },
+  },
+};
+
 export async function getPublishedPosts(
   req: Request,
   res: Response,
@@ -12,16 +39,7 @@ export async function getPublishedPosts(
     const prisma = new PrismaClient();
 
     const posts = await prisma.post.findMany({
-      select: {
-        title: true,
-        content: true,
-        uploaded: true,
-        author: {
-          select: {
-            username: true,
-          },
-        },
-      },
+      ...postsQuery,
       where: {
         published: true,
       },
@@ -46,16 +64,7 @@ export async function getUnpublishedPosts(
     const prisma = new PrismaClient();
 
     const posts = await prisma.post.findMany({
-      select: {
-        title: true,
-        content: true,
-        uploaded: true,
-        author: {
-          select: {
-            username: true,
-          },
-        },
-      },
+      ...postsQuery,
       where: {
         published: false,
       },
@@ -77,24 +86,15 @@ export async function createPost(
   try {
     // ADD JWT AUTH !!!!
 
-    const { authorId, title, content, published, uploaded } = req.body;
+    const { authorId, title, content } = req.body;
 
     const prisma = new PrismaClient();
-
-    await prisma.user.findUniqueOrThrow({
-      where: {
-        id: Number(authorId),
-        role: "BLOGGER",
-      },
-    });
 
     await prisma.post.create({
       data: {
         authorId: Number(authorId),
         title,
         content,
-        published,
-        uploaded,
       },
     });
 
@@ -106,10 +106,58 @@ export async function createPost(
   }
 }
 
-export function editPost(req: Request, res: Response) {
-  res.status(200).json({ message: "Success" });
+export async function editPost(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // ADD JWT AUTH !!!!
+
+    const { postId, title, content } = req.body;
+
+    const prisma = new PrismaClient();
+
+    await prisma.post.update({
+      where: {
+        id: Number(postId),
+      },
+      data: {
+        title,
+        content,
+      },
+    });
+
+    res.status(200).json({ message: "Post updated" });
+  } catch (err: any) {
+    console.error(err);
+
+    return next(err);
+  }
 }
 
-export function deletePost(req: Request, res: Response) {
-  res.status(200).json({ message: "Success" });
+export async function deletePost(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // ADD JWT AUTH !!!!
+
+    const { postId } = req.params;
+
+    const prisma = new PrismaClient();
+
+    await prisma.post.delete({
+      where: {
+        id: Number(postId),
+      },
+    });
+
+    res.status(200).json({ message: "Post deleted" });
+  } catch (err: any) {
+    console.error(err);
+
+    return next(err);
+  }
 }
