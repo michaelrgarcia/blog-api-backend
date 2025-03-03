@@ -30,11 +30,13 @@ model Comment {
   author   User? @relation(fields: [authorId], references: [id])
   authorId Int?
 
+  // remove?
   parentPost   Post? @relation(fields: [parentPostId], references: [id])
   parentPostId Int?
 
-  content  String
-  uploaded DateTime
+  content      String
+  uploaded     DateTime @default(now())
+  lastModified DateTime @default(now()) @updatedAt
 }
 
 model Post {
@@ -43,10 +45,11 @@ model Post {
   author   User? @relation(fields: [authorId], references: [id])
   authorId Int?
 
-  title     String
-  content   String
-  published Boolean
-  uploaded  DateTime
+  title        String
+  content      String
+  published    Boolean  @default(false)
+  uploaded     DateTime @default(now())
+  lastModified DateTime @default(now()) @updatedAt
 
   comments Comment[]
 }
