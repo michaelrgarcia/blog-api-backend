@@ -1,4 +1,4 @@
-import passport from "../auth/passportConfig.js";
+import passport from "../auth/passportConfigBlogger.js";
 
 import { Router } from "express";
 

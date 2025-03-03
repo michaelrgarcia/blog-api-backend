@@ -1,6 +1,6 @@
 import passport from "passport";
 
-import { jwtStrategy } from "./strategies/passportJwt.js";
+import { jwtStrategy } from "./strategies/passportJwtUser.js";
 
 passport.use(jwtStrategy);
 
