@@ -41,7 +41,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const prisma = new PrismaClient();
 
-    const user = await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUnique({
       where: {
         username,
       },
@@ -53,9 +53,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     if (!match) throw authError("Incorrect password");
 
-    const token = jwt.sign({ username }, String(process.env.JWT_SECRET), {
-      expiresIn: 120,
-    });
+    const token = jwt.sign({ username }, String(process.env.JWT_SECRET));
 
     res.status(200).json({ message: "Authentication successful", token });
   } catch (err: any) {
