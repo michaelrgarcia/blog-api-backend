@@ -1,10 +1,15 @@
 import express, { Request, Response, NextFunction } from "express";
+import passport from "passport";
+
+import { jwtStrategy } from "./auth/strategies/passportJwt.js";
 
 import indexRouter from "./routes/indexRouter.js";
 import postRouter from "./routes/postRouter.js";
 
 const app = express();
 const PORT = 3000;
+
+passport.use(jwtStrategy);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

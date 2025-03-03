@@ -1,4 +1,7 @@
-import { Router } from "express";
+import passport from "../auth/passportConfig.js";
+
+import { NextFunction, Request, Response, Router } from "express";
+
 import {
   createPost,
   deletePost,
@@ -10,10 +13,26 @@ import {
 const postRouter = Router();
 
 postRouter.get("/published", getPublishedPosts);
-postRouter.get("/unpublished", getUnpublishedPosts);
+postRouter.get(
+  "/unpublished",
+  passport.authenticate("jwt", { session: false }),
+  getUnpublishedPosts
+);
 
-postRouter.post("/create", createPost);
-postRouter.put("/edit", editPost);
-postRouter.delete("/delete/:postId", deletePost);
+postRouter.post(
+  "/create",
+  passport.authenticate("jwt", { session: false }),
+  createPost
+);
+postRouter.put(
+  "/edit",
+  passport.authenticate("jwt", { session: false }),
+  editPost
+);
+postRouter.delete(
+  "/delete/:postId",
+  passport.authenticate("jwt", { session: false }),
+  deletePost
+);
 
 export default postRouter;

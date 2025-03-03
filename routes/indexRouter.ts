@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { indexGet } from "../controllers/indexController.js";
+import { login, register } from "../controllers/indexController.js";
 
 const indexRouter = Router();
 
-indexRouter.get("/", indexGet);
+indexRouter.post("/register", register);
+indexRouter.post("/login", login);
 
 export default indexRouter;
