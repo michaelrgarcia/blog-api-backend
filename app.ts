@@ -1,10 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
 
 import indexRouter from "./routes/indexRouter.js";
 import postRouter from "./routes/postRouter.js";
 
 const app = express();
 const PORT = 3000;
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
