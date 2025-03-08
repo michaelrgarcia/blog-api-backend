@@ -15,6 +15,7 @@ const postsQuery = {
     lastModified: true,
     comments: {
       select: {
+        id: true,
         author: {
           select: {
             username: true,
