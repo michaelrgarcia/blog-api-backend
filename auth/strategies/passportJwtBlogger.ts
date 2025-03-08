@@ -29,16 +29,9 @@ export const jwtStrategy = new JwtStrategy(
         },
       });
 
-      const user = await prisma.user.findUnique({
-        where: {
-          username: payload.username,
-          role: "USER",
-        },
-      });
+      if (user && payload.role === "USER") throw authError("You are not a blogger.");
 
       if (!blogger && !user) throw authError("User not found");
-
-      if (user && !blogger) throw authError("You are not a blogger.");
 
       return done(null, true);
     } catch (err: any) {
