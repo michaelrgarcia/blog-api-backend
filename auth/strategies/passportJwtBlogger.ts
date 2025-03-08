@@ -22,6 +22,8 @@ export const jwtStrategy = new JwtStrategy(
     const prisma = new PrismaClient();
 
     try {
+      if (payload.role === "USER") throw authError("You are not a blogger.");
+
       const blogger = await prisma.user.findUnique({
         where: {
           username: payload.username,
@@ -29,9 +31,7 @@ export const jwtStrategy = new JwtStrategy(
         },
       });
 
-      if (user && payload.role === "USER") throw authError("You are not a blogger.");
-
-      if (!blogger && !user) throw authError("User not found");
+      if (!blogger) throw authError("User not found");
 
       return done(null, true);
     } catch (err: any) {
