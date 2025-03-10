@@ -25,6 +25,7 @@ postRouter.post(
   passport.authenticate("jwt", { session: false }),
   createPost
 );
+
 postRouter.put(
   "/edit",
   passport.authenticate("jwt", { session: false }),
@@ -40,6 +41,7 @@ postRouter.put(
   passport.authenticate("jwt", { session: false }),
   updatePublishStatus
 );
+
 postRouter.delete(
   "/delete/:postId",
   passport.authenticate("jwt", { session: false }),
