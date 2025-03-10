@@ -3,6 +3,7 @@ import cors from "cors";
 
 import indexRouter from "./routes/indexRouter.js";
 import postRouter from "./routes/postRouter.js";
+import commentRouter from "./routes/commentRouter.js";
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
 app.use("/posts", postRouter);
+app.use("/comments", commentRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
