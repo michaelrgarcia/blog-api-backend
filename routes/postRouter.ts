@@ -45,7 +45,7 @@ postRouter.put(
 );
 
 postRouter.delete(
-  "/delete/:postId",
+  ":postId/delete",
   passport.authenticate("jwt", { session: false }),
   deletePost
 );
