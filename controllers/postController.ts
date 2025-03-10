@@ -81,7 +81,7 @@ export async function createPost(
   next: NextFunction
 ) {
   try {
-    const { authorId, title, content } = req.body;
+    const { authorId, title, content, published } = req.body;
 
     const prisma = new PrismaClient();
 
@@ -90,6 +90,7 @@ export async function createPost(
         authorId: Number(authorId),
         title,
         content,
+        published
       },
     });
 
