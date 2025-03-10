@@ -8,6 +8,7 @@ import {
   editPost,
   getPublishedPosts,
   getUnpublishedPosts,
+  updatePublishStatus,
 } from "../controllers/postController.js";
 
 const postRouter = Router();
@@ -28,6 +29,16 @@ postRouter.put(
   "/edit",
   passport.authenticate("jwt", { session: false }),
   editPost
+);
+postRouter.put(
+  "/publish",
+  passport.authenticate("jwt", { session: false }),
+  updatePublishStatus
+);
+postRouter.put(
+  "/unpublish",
+  passport.authenticate("jwt", { session: false }),
+  updatePublishStatus
 );
 postRouter.delete(
   "/delete/:postId",

@@ -129,6 +129,33 @@ export async function editPost(
   }
 }
 
+export async function updatePublishStatus(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { postId, published } = req.body;
+
+    const prisma = new PrismaClient();
+
+    await prisma.post.update({
+      where: {
+        id: Number(postId),
+      },
+      data: {
+        published,
+      },
+    });
+
+    res.status(200).json({ message: "Publish status updated" });
+  } catch (err: any) {
+    console.error(err);
+
+    return next(err);
+  }
+}
+
 export async function deletePost(
   req: Request,
   res: Response,
