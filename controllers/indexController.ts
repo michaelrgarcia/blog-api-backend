@@ -54,9 +54,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     if (!match) throw authError("Incorrect password");
 
-    const { role } = user;
+    const { role, id } = user;
 
-    const token = jwt.sign({ username, role }, String(process.env.JWT_SECRET));
+    const token = jwt.sign(
+      { username, role, id },
+      String(process.env.JWT_SECRET)
+    );
 
     res.status(200).json({ message: "Authentication successful", token });
   } catch (err: any) {
