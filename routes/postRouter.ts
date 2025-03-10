@@ -6,6 +6,7 @@ import {
   createPost,
   deletePost,
   editPost,
+  getPostComments,
   getPublishedPosts,
   getUnpublishedPosts,
   updatePublishStatus,
@@ -19,6 +20,7 @@ postRouter.get(
   passport.authenticate("jwt", { session: false }),
   getUnpublishedPosts
 );
+postRouter.get("/:postId/comments", getPostComments);
 
 postRouter.post(
   "/create",

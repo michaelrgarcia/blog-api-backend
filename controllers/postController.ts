@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { getParsedJwt } from "../utils/jwtHelpers.js";
 
 const postsQuery = {
   select: {
@@ -75,22 +76,54 @@ export async function getUnpublishedPosts(
   }
 }
 
+export async function getPostComments(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { postId } = req.params;
+
+    const prisma = new PrismaClient();
+
+    const comments = await prisma.post.findUnique({
+      where: {
+        id: Number(postId),
+        published: true,
+      },
+      select: {
+        comments: true,
+      },
+    });
+
+    res.status(200).json(comments);
+  } catch (err: any) {
+    console.error(err);
+
+    return next(err);
+  }
+}
+
 export async function createPost(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    const { authorId, title, content, published } = req.body;
+    const { title, content, published } = req.body;
+
+    const parsedJwt = getParsedJwt(
+      String(req.headers.authorization?.split(" ")[1])
+    );
 
     const prisma = new PrismaClient();
 
     await prisma.post.create({
       data: {
-        authorId: Number(authorId),
+        authorId: Number(parsedJwt!.id),
         title,
         content,
-        published
+        published,
       },
     });
 
