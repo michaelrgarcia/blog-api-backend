@@ -95,7 +95,7 @@ export async function deleteComment(
     );
 
     if (
-      parsedJwt!.role !== "BLOGGER" ||
+      parsedJwt!.role !== "BLOGGER" &&
       parsedJwt!.id !== matchingComment?.authorId
     )
       throw authError("You cannot delete another user's comment.");
